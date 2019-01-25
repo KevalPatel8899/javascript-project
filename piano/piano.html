@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Piano</title>
+</head>
+<style type="text/css">
+	.playing
+	{
+		transform: scale(1.1);
+		border-color: yellow;
+		box-shadow: 0 0 10px yellow;
+	}
+
+	kbd
+	{
+		display: block;
+		font-style: 40px;
+	}
+
+	.sound
+	{
+		font-size: 1.2rem;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		color: yellow;
+	}
+
+	.key
+	{
+		border: 4px solid black;
+		border-radius: 5px;
+		margin: 1rem;
+		font-size: 1.5rem;
+		padding:1rem;
+		transition: all 0.7s;
+		width: 100px;
+		text-align: center;
+		color: white;
+		background: rgba(0,0,0,4);
+		text-shadow: 0 0 5px black;
+	}	
+</style>
+<body>
+<div class="keys">
+	<div data-key="65" class="key">
+		<kbd>A</kbd>
+		<span class="sound">noteA</span>
+	</div>
+	<div data-key="66" class="key">
+		<kbd>B</kbd>
+		<span class="sound">noteB</span>
+	</div>
+	<div data-key="67" class="key">
+		<kbd>C</kbd>
+		<span class="sound">noteC</span>
+	</div>
+	<div data-key="68" class="key">
+		<kbd>D</kbd>
+		<span class="sound">noteD</span>
+	</div>
+	<div data-key="69" class="key">
+		<kbd>E</kbd>
+		<span class="sound">noteE</span>
+	</div>
+	<div data-key="70" class="key">
+		<kbd>F</kbd>
+		<span class="sound">noteF</span>
+	</div>
+	<div data-key="71" class="key">
+		<kbd>G</kbd>
+		<span class="sound">noteG</span>
+	</div>
+	<div data-key="72" class="key">
+		<kbd>H</kbd>
+		<span class="sound">noteH</span>
+	</div>
+	<div data-key="73" class="key">
+		<kbd>I</kbd>
+		<span class="sound">noteI</span>
+	</div>
+</div>
+
+<audio data-key="65" src="sounds/a1.wav"></audio>
+<audio data-key="66" src="sounds/a1s.wav"></audio>
+<audio data-key="67" src="sounds/b1.wav"></audio>
+<audio data-key="68" src="sounds/c1.wav"></audio>
+<audio data-key="69" src="sounds/c1s.wav"></audio>
+<audio data-key="70" src="sounds/c2.wav"></audio>
+<audio data-key="71" src="sounds/d1.wav"></audio>
+<audio data-key="72" src="sounds/d1s.wav"></audio>
+<audio data-key="73" src="sounds/e1.wav"></audio>
+<audio data-key="74" src="sounds/f1s.wav"></audio>
+
+
+<script type="text/javascript">
+	function playSound(e)
+	{
+		const audio= document.querySelector(`audio[data-key="${e.keyCode}"]`);
+		const keys = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+		if(!audio) return;
+		audio.currentTime=0;
+		audio.play();
+		keys.classList.add('playing');
+	}
+
+	function removeTransition(e)
+	{
+		if(e.propertyName !== 'transform') return;
+		this.classList.remove('playing');
+	}
+
+	const keys = document.querySelectorAll('.key');
+	keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+	window.addEventListener('keydown',playSound);
+</script>
+</body>
+</html>
